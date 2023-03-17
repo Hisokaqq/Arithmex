@@ -37,6 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+
+    'profileApp.apps.ProfileappConfig',
+    'scoringApp.apps.ScoringappConfig',
+
+    'rest_framework',
+    
 ]
 
 MIDDLEWARE = [
