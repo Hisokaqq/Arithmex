@@ -16,7 +16,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     key = models.CharField(max_length=4, default=generate_key)
     created_at = models.DateTimeField(default=timezone.now)
-    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, default="avatars/def_avatar.png")
     full_username = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
