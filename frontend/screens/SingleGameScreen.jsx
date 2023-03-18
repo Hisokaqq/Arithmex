@@ -4,10 +4,24 @@ import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 
 const SingleGameScreen = ({navigation}) => {
-  const [question, setQuestion] = useState('3 + 3');
-  const [answer, setAnswer] = useState('');
-  const [finished, setFinished] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(100);
+    const operators = [" + ", " - ", " * "];
+    // ×
+
+    const [numOp, setNumOp] = useState(Math.floor(Math.random() * 3) + 2);
+    const [numArray, setNumArray] = useState(Array.from({length: numOp}, () => Math.floor(Math.random() * 10) + 1));
+    const [operatorArray, setOperatorArray] = useState(Array.from({ length: numOp - 1 }, () => {
+        return operators[Math.floor(Math.random() * operators.length)];
+    }));
+
+    const [expression, setExpression] = useState(numArray.reduce((acc, curr, index) => acc + (index === 0 ? curr : operatorArray[index - 1] + curr), ""));
+    const [result, setResult] = useState(eval(expression));
+    const [answer, setAnswer] = useState('');
+
+    const [finished, setFinished] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(100);
+    const [score, setScore] = useState(0)
+
+  
   useEffect(() => {
     if (timeLeft === 0) {
       setFinished(true);
@@ -39,13 +53,36 @@ const SingleGameScreen = ({navigation}) => {
       ),
       headerRight: () => (
         <Text style={{ marginRight: 6, color: '#fff' }}>
-          {timeLeft} sec
+          {timeLeft} 
         </Text>
       ),
     });
   }, [navigation, timeLeft]);
   const onButtonPress = (value) => {
+
     setAnswer(answer + value.toString());
+
+    if (answer + value === result.toString()) {
+        // Answer is correct, generate new random numbers and operators
+        const newNumOp = Math.floor(Math.random() * 3) + 2;
+        const newNumArray = Array.from({length: newNumOp}, () => Math.floor(Math.random() * 10) + 1);
+        const newOperatorArray = Array.from({ length: newNumOp - 1 }, () => {
+          return operators[Math.floor(Math.random() * operators.length)];
+        });
+    
+        const newExpression = newNumArray.reduce((acc, curr, index) => acc + (index === 0 ? curr : newOperatorArray[index - 1] + curr), "");
+        const newResult = eval(newExpression);
+        setTimeout(() => {
+            setNumOp(newNumOp);
+            setNumArray(newNumArray);
+            setOperatorArray(newOperatorArray);
+            setExpression(newExpression);
+            setResult(newResult);
+            setAnswer('');
+            setTimeLeft(timeLeft+5)
+            setScore(score+1)
+        }, 100); 
+      }
   };
 
   const onDeletePress = () => {
@@ -58,8 +95,8 @@ const SingleGameScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View style={{flex:1, alignItems:"center"}}>
-        <Text style={styles.questionText}>{question} </Text>
+      <View style={{flex:1, alignItems:"center", marginTop: 10}}>
+        <Text style={styles.questionText}>{expression} </Text>
         <Text style={styles.answerText}>{answer}</Text>
       </View>
 
