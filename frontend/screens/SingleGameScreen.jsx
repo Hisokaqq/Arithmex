@@ -35,29 +35,33 @@ const SingleGameScreen = ({navigation}) => {
 
   useLayoutEffect(()=>{
     navigation.setOptions({
-      headerTitle: "",
+      headerTitle: `${score}`, // Set the header title
+      headerTitleAlign: "center", // Center align the header title
+  
       headerTintColor: '#fff', // set the color of the back button
-
+  
       headerStyle: {
         backgroundColor: 'rgba(0, 0, 0, 1)'
       },
       headerLeft: () => (
         <View style={{ marginLeft: 6 }}>
           <Ionicons
-            name="arrow-back"
+            name="arrow-back"   
             size={24}
             color="#fff"
             onPress={() => navigation.goBack()}
           />
         </View>
       ),
+      
       headerRight: () => (
-        <Text style={{ marginRight: 6, color: '#fff' }}>
+        <Text style={{ marginRight: 6, color: '#fff', width: 35, display: "flex", textAlign:"right"}}>
           {timeLeft} 
         </Text>
       ),
     });
-  }, [navigation, timeLeft]);
+  }, [navigation, timeLeft, score]);
+  
   const onButtonPress = (value) => {
 
     setAnswer(answer + value.toString());

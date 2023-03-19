@@ -9,7 +9,7 @@ const HomeScreen = () => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate("Sign In")}>
           <MaterialCommunityIcons
             name="account"
             size={24}

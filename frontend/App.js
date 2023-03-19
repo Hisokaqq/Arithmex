@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screens/HomeScreen';
 import SingleGameScreen from './screens/SingleGameScreen';
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -14,6 +16,8 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="SingleGame" component={SingleGameScreen} />
+        <Stack.Screen name="Sign In" component={LoginScreen} />
+        <Stack.Screen name="Sign Up" component={RegisterScreen} />
       </Stack.Navigator>
       <StatusBar style="light" />
 

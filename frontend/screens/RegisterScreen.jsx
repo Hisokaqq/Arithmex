@@ -4,9 +4,10 @@ import logo from "../images/logo.png";
 import CustomInput from '../components/CustomInput';
 import CustomBtn from '../components/CustomBtn';
 
-const LoginScreen = ({navigation}) => {
+const RegisterScreen = ({navigation}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [rPassword, setRPassword] = useState("");
     const [animation] = useState(new Animated.Value(-2));
 
 useEffect(() => {
@@ -27,13 +28,12 @@ useEffect(() => {
 }, [animation]);
 
     const onSignedInPressed = () => {
-        console.warn("sign In");
+        
+        navigation.navigate("Sign In");
     };
-    const onForgotPassword = () => {
-        console.warn("Forgot Password");
-    };
+ 
     const onSignedUpPressed = () => {
-        navigation.navigate("Sign Up");
+        console.warn("sign Up");
     };
 
     const animatedStyle = {
@@ -51,14 +51,14 @@ useEffect(() => {
     />
             <CustomInput placeholder="username" value={username} setValue={setUsername}/>
             <CustomInput placeholder="password" value={password} setValue={setPassword} />
-            <CustomBtn text="Sign In" onPressed={onSignedInPressed} type="main"/>
-            <CustomBtn text="Forgot Password?" onPressed={onForgotPassword} type="secondary"/>
-            <CustomBtn text="Dont have an account?" onPressed={onSignedUpPressed} type="secondary"/>
+            <CustomInput placeholder="repeat password" value={rPassword} setValue={setRPassword} />
+            <CustomBtn text="Sign Up" onPressed={onSignedUpPressed} type="main"/>
+            <CustomBtn text="Already have an account?" onPressed={onSignedInPressed} type="secondary"/>
         </View>
     );
 };
 
-export default LoginScreen;
+export default RegisterScreen;
 
 const styles = StyleSheet.create({
     root:{
