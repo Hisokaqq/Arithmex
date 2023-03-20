@@ -3,10 +3,11 @@ import React, { useState, useEffect } from 'react';
 import logo from "../images/logo.png";
 import CustomInput from '../components/CustomInput';
 import CustomBtn from '../components/CustomBtn';
-
+import axios from "axios"
 const LoginScreen = ({navigation}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [errord, setErrorD] = useState(null)
     const [animation] = useState(new Animated.Value(-2));
 
 useEffect(() => {
@@ -26,8 +27,20 @@ useEffect(() => {
   ).start();
 }, [animation]);
 
-    const onSignedInPressed = () => {
-        console.warn("sign In");
+    const onSignedInPressed = async () => {
+        const Inputdata = {username: username, password: password}
+        try {
+
+        
+        const {data} = await axios.post("http://127.0.0.1:8000/api/users/login/", Inputdata)
+        // const {data} = await axios.get("http://127.0.0.1:8000/api/users/list/")
+        console.log(data)
+        }catch(error) {
+          // console.log(error.response.data)
+          const {detail} = error.response.data
+          console.log(detail)
+          setErrorD(detail)
+        }
     };
     const onForgotPassword = () => {
         console.warn("Forgot Password");
@@ -42,6 +55,7 @@ useEffect(() => {
 
     return (
         <View style={styles.root}>
+          <View style={{width: "100%", alignItems: "center", flex: 1}}>
             <Animated.Image
       source={logo}
       alt="logo"
@@ -54,6 +68,9 @@ useEffect(() => {
             <CustomBtn text="Sign In" onPressed={onSignedInPressed} type="main"/>
             <CustomBtn text="Forgot Password?" onPressed={onForgotPassword} type="secondary"/>
             <CustomBtn text="Dont have an account?" onPressed={onSignedUpPressed} type="secondary"/>
+            
+            </View>
+            <Text style={{paddingVertical: 30, color:"red"}}>{errord}</Text>
         </View>
     );
 };
@@ -62,8 +79,8 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
     root:{
-        alignItems: "center",
         paddingHorizontal: 20, 
+        flex: 1
     },
     logo: {
         width: "70%",
