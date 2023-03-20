@@ -30,23 +30,29 @@ useEffect(() => {
   ).start();
 }, [animation]);
 
-    const onSignedInPressed = async () => {
-        setLoading(true)
+const onSignedInPressed = async () => {
+  setLoading(true);
+  const inputData = { username: username, password: password };
 
-        const Inputdata = {username: username, password: password}
+  try {
+    const { data } = await axios.post(
+      "http://127.0.0.1:8000/api/users/login/",
+      inputData
+    );
 
-        try {
+    // Store the user data in AsyncStorage
+    await AsyncStorage.setItem("UserInfo", JSON.stringify(data));
 
-        
-        const {data} = await axios.post("http://127.0.0.1:8000/api/users/login/", Inputdata)
-        }catch(error) {
-          // console.log(error.response.data)
-          const {detail} = error.response.data
-          console.log(detail)
-          setErrorD(detail)
-        }
-        setLoading(false)
-    };
+    // Navigate to the home screen or perform any other actions
+    // ...
+
+  } catch (error) {
+    const { detail } = error.response.data;
+    setErrorD(detail);
+  }
+  setLoading(false);
+};
+
     const onForgotPassword = () => {
         console.warn("Forgot Password");
     };
