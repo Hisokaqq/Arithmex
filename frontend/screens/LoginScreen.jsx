@@ -4,10 +4,12 @@ import logo from "../images/logo.png";
 import CustomInput from '../components/CustomInput';
 import CustomBtn from '../components/CustomBtn';
 import axios from "axios"
+import ErrorMessage from '../components/ErrorMessage';
 const LoginScreen = ({navigation}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errord, setErrorD] = useState(null)
+    const [loading,  setLoading] = useState(false)
     const [animation] = useState(new Animated.Value(-2));
 
 useEffect(() => {
@@ -28,19 +30,21 @@ useEffect(() => {
 }, [animation]);
 
     const onSignedInPressed = async () => {
+        setLoading(true)
+
         const Inputdata = {username: username, password: password}
+
         try {
 
         
         const {data} = await axios.post("http://127.0.0.1:8000/api/users/login/", Inputdata)
-        // const {data} = await axios.get("http://127.0.0.1:8000/api/users/list/")
-        console.log(data)
         }catch(error) {
           // console.log(error.response.data)
           const {detail} = error.response.data
           console.log(detail)
           setErrorD(detail)
         }
+        setLoading(false)
     };
     const onForgotPassword = () => {
         console.warn("Forgot Password");
@@ -70,7 +74,8 @@ useEffect(() => {
             <CustomBtn text="Dont have an account?" onPressed={onSignedUpPressed} type="secondary"/>
             
             </View>
-            <Text style={{paddingVertical: 30, color:"red"}}>{errord}</Text>
+           
+            <ErrorMessage message={errord}/>
         </View>
     );
 };

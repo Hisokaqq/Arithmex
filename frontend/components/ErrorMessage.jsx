@@ -13,7 +13,8 @@ export default ErrorMessage
 
 const styles = StyleSheet.create({
     container:{
-        paddingVertical: 30
+        paddingVertical: 30,
+        alignItems: "center",
     },
     text:{
         color: "red"
