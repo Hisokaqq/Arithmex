@@ -1,35 +1,47 @@
 import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from 'react-native';
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-
+  const [userInfo, setUserInfo] = useState(null);
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const value = await AsyncStorage.getItem('UserInfo');
+        setUserInfo(value)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUserInfo();
+  }, [navigation]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity onPress={()=>navigation.navigate("Sign In")}>
+        <TouchableOpacity onPress={()=>navigation.navigate(AsyncStorage.getItem('UserInfo') ? "Profile" : "Sign In")}>
           <MaterialCommunityIcons
             name="account"
             size={24}
-            color="white"
+            color="#000"
             style={{ marginLeft: 8 }}
           />
         </TouchableOpacity>
       ),
       headerRight: () => (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate("Rankings")}>
           <MaterialCommunityIcons
             name="trophy"
             size={24}
-            color="white"
+            color="#000"
             style={{ marginRight: 8 }}
           />
         </TouchableOpacity>
       ),
       headerStyle: {
-        backgroundColor: 'rgba(0, 0, 0, 1)', 
+        backgroundColor: '#fff', 
       },
       headerTitle: '', // remove the title
     });

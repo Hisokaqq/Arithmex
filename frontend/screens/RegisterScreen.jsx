@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Image, Animated } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
 import logo from "../images/logo.png";
 import CustomInput from '../components/CustomInput';
@@ -36,16 +37,20 @@ const onSignedUpPressed = async () => {
   if(password !== passwordR) setErrorD("passwords do not match")
   else{
   const inputData = { username: username, password: password };
-
+  const config = {
+    headers: {
+        "Content-type": "application/json"
+    }
+}
   try {
     const { data } = await axios.post(
       "http://127.0.0.1:8000/api/users/register/",
-      inputData
+      inputData,
+      config
     );
 
-    await AsyncStorage.setItem("UserInfo", JSON.stringify(data));
-
-    await navigation.navigate("Home")
+    AsyncStorage.setItem("UserInfo", JSON.stringify(data));
+    await navigation.replace("Home")
 
   } catch (error) {
     const { detail } = await error.response.data;

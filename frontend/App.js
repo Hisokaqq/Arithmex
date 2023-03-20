@@ -6,6 +6,8 @@ import HomeScreen from './screens/HomeScreen';
 import SingleGameScreen from './screens/SingleGameScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import RankingScreen from './screens/RankingScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -18,6 +20,10 @@ export default function App() {
         <Stack.Screen name="SingleGame" component={SingleGameScreen} />
         <Stack.Screen name="Sign In" component={LoginScreen} />
         <Stack.Screen name="Sign Up" component={RegisterScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} 
+         options={{presentation: "modal", headerShown: false}}
+         />
+        <Stack.Screen name="Rankings" component={RankingScreen} />
       </Stack.Navigator>
       <StatusBar style="light" />
 

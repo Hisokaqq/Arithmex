@@ -9,14 +9,28 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
-
+#other profiles
 @api_view(['GET'])
 def profile_list(request):
     profiles = Profile.objects.all()
     serializer = ProfileSerializer(profiles, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def scoring(request):
+    profiles = Profile.objects.all().order_by('-score')
+    serializer = ProfileSerializer(profiles, many=True)
+    return Response(serializer.data)
 
+#refreshing
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def refreshUser(request):
+    user = request.user
+    serializer = UserSerializerWithToken(user, many=False)
+    return Response(serializer.data)
+
+#updating 
 @permission_classes([IsAuthenticated])
 @api_view(["PUT", "GET"])
 def update_user(request):
@@ -44,7 +58,7 @@ def update_user(request):
 
 
 
-
+#user_stats
 @api_view(["PUT"])
 @permission_classes([IsAuthenticated])
 def add_score(request):

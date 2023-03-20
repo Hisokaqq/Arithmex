@@ -3,7 +3,9 @@ from . import views
 
 
 urlpatterns = [
-    path('list/', views.profile_list, name="profiles_list"),
+    path('list/', views.profile_list, name="profiles list"),
+    path('scoring/', views.scoring, name="profiles list"),
+    path('refresh/', views.refreshUser, name="refresh user"),
     path('login/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('update/', views.update_user, name='updating'),
     path('register/', views.registerUser, name='register'),
