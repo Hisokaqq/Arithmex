@@ -3,11 +3,15 @@ import React, { useState, useEffect } from 'react';
 import logo from "../images/logo.png";
 import CustomInput from '../components/CustomInput';
 import CustomBtn from '../components/CustomBtn';
-
+import axios from "axios"
+import ErrorMessage from '../components/ErrorMessage';
+import Loader from '../components/Loader';
 const RegisterScreen = ({navigation}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [rPassword, setRPassword] = useState("");
+    const [passwordR, setPasswordR] = useState("");
+    const [errord, setErrorD] = useState(null)
+    const [loading,  setLoading] = useState(false)
     const [animation] = useState(new Animated.Value(-2));
 
 useEffect(() => {
@@ -27,13 +31,34 @@ useEffect(() => {
   ).start();
 }, [animation]);
 
+const onSignedUpPressed = async () => {
+  if(username!="" && password!="" && passwordR!=""){;
+  if(password !== passwordR) setErrorD("passwords do not match")
+  else{
+  const inputData = { username: username, password: password };
+
+  try {
+    const { data } = await axios.post(
+      "http://127.0.0.1:8000/api/users/register/",
+      inputData
+    );
+
+    await AsyncStorage.setItem("UserInfo", JSON.stringify(data));
+
+    await navigation.navigate("Home")
+
+  } catch (error) {
+    const { detail } = await error.response.data;
+    setErrorD(detail);
+  }
+}
+  setLoading(false);
+}
+};
+
+
     const onSignedInPressed = () => {
-        
-        navigation.navigate("Sign In");
-    };
- 
-    const onSignedUpPressed = () => {
-        console.warn("sign Up");
+        navigation.navigate("Sign Up");
     };
 
     const animatedStyle = {
@@ -42,6 +67,7 @@ useEffect(() => {
 
     return (
         <View style={styles.root}>
+          <View style={{width: "100%", alignItems: "center", flex: 1}}>
             <Animated.Image
       source={logo}
       alt="logo"
@@ -51,9 +77,16 @@ useEffect(() => {
     />
             <CustomInput placeholder="username" value={username} setValue={setUsername}/>
             <CustomInput placeholder="password" value={password} setValue={setPassword} />
-            <CustomInput placeholder="repeat password" value={rPassword} setValue={setRPassword} />
+            <CustomInput placeholder="repeat password" value={passwordR} setValue={setPasswordR} />
             <CustomBtn text="Sign Up" onPressed={onSignedUpPressed} type="main"/>
             <CustomBtn text="Already have an account?" onPressed={onSignedInPressed} type="secondary"/>
+            
+            </View>
+            {
+              loading &&
+              <Loader/>
+            }
+            <ErrorMessage message={errord}/>
         </View>
     );
 };
@@ -62,8 +95,8 @@ export default RegisterScreen;
 
 const styles = StyleSheet.create({
     root:{
-        alignItems: "center",
         paddingHorizontal: 20, 
+        flex: 1
     },
     logo: {
         width: "70%",

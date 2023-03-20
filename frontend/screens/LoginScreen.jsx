@@ -31,7 +31,8 @@ useEffect(() => {
 }, [animation]);
 
 const onSignedInPressed = async () => {
-  setLoading(true);
+  if(username!="" && password!="") setLoading(true);
+  
   const inputData = { username: username, password: password };
 
   try {
@@ -40,11 +41,9 @@ const onSignedInPressed = async () => {
       inputData
     );
 
-    // Store the user data in AsyncStorage
     await AsyncStorage.setItem("UserInfo", JSON.stringify(data));
 
-    // Navigate to the home screen or perform any other actions
-    // ...
+    await navigation.navigate("Home")
 
   } catch (error) {
     const { detail } = error.response.data;

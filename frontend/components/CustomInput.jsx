@@ -4,7 +4,7 @@ import React from 'react'
 const CustomInput = ({value, setValue, placeholder }) => {
   return (
     <View style={styles.container}>
-      <TextInput placeholder={placeholder} value={value} onChangeText={setValue} style={styles.input} secureTextEntry={placeholder=="password"}></TextInput>
+      <TextInput placeholder={placeholder} value={value} onChangeText={setValue} style={styles.input} secureTextEntry={placeholder.includes("password")}></TextInput>
     </View>
   )
 }
