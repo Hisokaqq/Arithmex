@@ -53,7 +53,7 @@ const HomeScreen = () => {
             <TouchableOpacity onPress={()=>navigation.navigate("SingleGame")} style={styles.select}>
                 <Text style={{textAlign: "center"}} >SinglePlyerMode</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.select}>
+            <TouchableOpacity  onPress={()=>navigation.navigate("Lobby")} style={styles.select}>
                 <Text style={{textAlign: "center"}}>MultyPlayerMode</Text>
             </TouchableOpacity>
         </View>
