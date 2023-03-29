@@ -6,25 +6,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const [userInfo, setUserInfo] = useState(null);
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const value = await AsyncStorage.getItem('UserInfo');
-        setUserInfo(value)
-        console.log(userInfo)
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchUserInfo();
-  }, [navigation]);
   
   const navigationHandler = async () => {
-    if(userInfo)  navigation.navigate(  "Profile" )
+    const value = await AsyncStorage.getItem('UserInfo')
+    if(value)  navigation.navigate(  "Profile" )
     else navigation.navigate(  "Sign In" )
   }
-  
+  useEffect(() => {
+    console.log('HomeScreen mounted');
+    return () => {
+      console.log('HomeScreen unmounted');
+    };
+  }, []);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (

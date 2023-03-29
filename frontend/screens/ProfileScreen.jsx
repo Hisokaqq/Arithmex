@@ -29,7 +29,7 @@ const ProfileScreen = ({navigation}) => {
           )
           setUserInfo(data)
           setGames(data1)
-          console.log(`http://127.0.0.1:8000${games[0].player2_avatar }`)
+
         }
       } catch (error) {
         console.log(error)
