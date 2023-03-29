@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'rea
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import Level from '../components/Level'
 
 const ProfileScreen = ({navigation}) => {
   const [userInfo, setUserInfo] = useState(null)
@@ -52,6 +53,7 @@ const ProfileScreen = ({navigation}) => {
     <View style={{padding: 20, position: "relative", flex: 1}}>
       <View style={{flex:1}}>
       {userInfo && userInfo.profile && (
+        <>
         <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
         <View style={{flexDirection: "row", alignItems: "center", gap: 5}}>
           <Image
@@ -61,11 +63,15 @@ const ProfileScreen = ({navigation}) => {
           <Text style={styles.username}>{userInfo?.profile.full_username}</Text>
         </View>
           <View style={{backgroundColor: "#000", paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5}}>
-          <Text style={{color:"#fff", fontWeight:700}}>{userInfo.profile.score}</Text>
+          <Text style={{color:"#fff", fontWeight:700}}>{userInfo.profile.level}</Text>
           </View>
         </View>
+        <Level level={userInfo.profile.level} currentExp={userInfo.profile.experience}/>
+        </>
+
       )}
       
+
       <View style={{ marginTop: 20, height: 300}}>
         <ScrollView style={{flex: 1}}>
           {games && games.map(game => (
