@@ -12,12 +12,7 @@ const HomeScreen = () => {
     if(value)  navigation.navigate(  "Profile" )
     else navigation.navigate(  "Sign In" )
   }
-  useEffect(() => {
-    console.log('HomeScreen mounted');
-    return () => {
-      console.log('HomeScreen unmounted');
-    };
-  }, []);
+  
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
