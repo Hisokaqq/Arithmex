@@ -12,16 +12,23 @@ const HomeScreen = () => {
       try {
         const value = await AsyncStorage.getItem('UserInfo');
         setUserInfo(value)
+        console.log(userInfo)
       } catch (error) {
         console.log(error);
       }
     };
     fetchUserInfo();
   }, [navigation]);
+  
+  const navigationHandler = async () => {
+    if(userInfo)  navigation.navigate(  "Profile" )
+    else navigation.navigate(  "Sign In" )
+  }
+  
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity onPress={()=>navigation.navigate(AsyncStorage.getItem('UserInfo') ? "Profile" : "Sign In")}>
+        <TouchableOpacity onPress={navigationHandler}>
           <MaterialCommunityIcons
             name="account"
             size={24}
