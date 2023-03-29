@@ -8,7 +8,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('key', "full_username", 'avatar', "games_played", "score", "username")
+        fields = ('key', "full_username", 'avatar', "games_played", "score", "username", "experience", "level")
 
 
 class UserSerializer(serializers.ModelSerializer):

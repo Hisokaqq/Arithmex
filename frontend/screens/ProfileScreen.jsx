@@ -29,7 +29,6 @@ const ProfileScreen = ({navigation}) => {
           )
           setUserInfo(data)
           setGames(data1)
-
         }
       } catch (error) {
         console.log(error)

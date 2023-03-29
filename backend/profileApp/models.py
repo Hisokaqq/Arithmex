@@ -20,11 +20,22 @@ class Profile(models.Model):
     full_username = models.CharField(max_length=255, blank=True)
     games_played = models.IntegerField(null=True, blank=True, default=0)
     score = models.IntegerField(null=True, blank=True, default=0)
+    experience = models.IntegerField(null=True, blank=True, default=0)
+    level = models.IntegerField(null=True, blank=True, default=1)
+
     def __str__(self):
         return self.full_username or f"{self.user.username}#{self.key}"
 
     def save(self, *args, **kwargs):
         self.full_username = f"{self.user.username}#{self.key}"
+        self.update_level()
         super().save(*args, **kwargs)
+    
+    def update_level(self):
+        self.level = int((self.experience / 100) ** 0.5) + 1
 
 
+class Badge(models.Model):
+    user = models.ManyToManyField(User, null=True, blank=True)
+    title = models.CharField(max_length=30)
+    image = models.ImageField(upload_to='badges/', null=True, blank=True)
