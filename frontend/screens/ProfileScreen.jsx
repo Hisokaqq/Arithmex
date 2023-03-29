@@ -37,51 +37,7 @@ const ProfileScreen = ({navigation}) => {
     }
     fetchUserInfo()
   }, [])
-
-  const handleAvatarPress = () => {
-    ImagePicker.showImagePicker(
-      {
-        title: 'Select Avatar',
-        storageOptions: {
-          skipBackup: true,
-          path: 'images',
-        },
-      },
-      async (response) => {
-        if (response.didCancel) {
-          console.log('User cancelled image picker');
-        } else if (response.error) {
-          console.log('ImagePicker Error: ', response.error);
-        } else {
-          const data = new FormData();
-          data.append('avatar', {
-            uri: response.uri,
-            type: response.type,
-            name: response.fileName || response.uri.split('/').pop(),
-          });
-
-          const user = JSON.parse(await AsyncStorage.getItem('UserInfo'));
-          const config = {
-            headers: {
-              'Content-type': 'multipart/form-data',
-              Authorization: `Bearer ${user.token}`,
-            },
-          };
-
-          try {
-            const { data: updatedData } = await axios.put(
-              'http://127.0.0.1:8000/api/users/update/',
-              data,
-              config
-            );
-            setUserInfo(updatedData);
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      }
-    );
-  };
+  
 
   const handleLogout = async () => {
     try {
@@ -100,16 +56,14 @@ const ProfileScreen = ({navigation}) => {
         <>
         <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
         <View style={{flexDirection: "row", alignItems: "center", gap: 5}}>
-        <TouchableOpacity onPress={handleAvatarPress} >
-        <Image
-          style={styles.avatar}
-          source={{ uri: `http://127.0.0.1:8000${userInfo.profile.avatar }` }}
-        />
-        </TouchableOpacity>
+          <Image
+            style={styles.avatar}
+            source={{ uri: `http://127.0.0.1:8000${userInfo.profile.avatar }` }}
+          />
           <Text style={styles.username}>{userInfo?.profile.full_username}</Text>
         </View>
           <View style={{backgroundColor: "#000", paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5}}>
-          <Text style={{color:"#fff", fontWeight:700}}>{userInfo.profile.score}</Text>
+          <Text style={{color:"#fff", fontWeight:700}}>{userInfo.profile.level}</Text>
           </View>
         </View>
         <Level level={userInfo.profile.level} currentExp={userInfo.profile.experience}/>
