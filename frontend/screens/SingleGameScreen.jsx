@@ -2,8 +2,35 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { useLayoutEffect, useState, useEffect } from 'react'
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
-
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const SingleGameScreen = ({navigation}) => {
+    const [userInfo, setUserInfo] = useState(null)
+    useEffect(() => {
+      const fetchUserInfo = async () => {
+        try {
+          const value = await AsyncStorage.getItem('UserInfo')
+          if (value !== null) {
+            const user = await JSON.parse(value)
+            const config = {
+              headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${user?.token}`,
+              },
+            }
+            const { data } = await axios.get(
+              'http://127.0.0.1:8000/api/users/refresh/',
+              config
+            )
+            
+            setUserInfo(data)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      fetchUserInfo()
+    }, [])
     const operators = [" + ", " - ", " * "];
     // ×
 
@@ -28,6 +55,7 @@ const SingleGameScreen = ({navigation}) => {
     } else {
       const timer = setTimeout(() => {
         setTimeLeft(timeLeft - 1);
+        
       }, 1000);
       return () => clearTimeout(timer);
     }
@@ -76,6 +104,13 @@ const SingleGameScreen = ({navigation}) => {
     
         const newExpression = newNumArray.reduce((acc, curr, index) => acc + (index === 0 ? curr : newOperatorArray[index - 1] + curr), "");
         const newResult = eval(newExpression);
+        const config = {
+          headers: {
+            'Content-type': 'application/json',
+            Authorization: `Bearer ${userInfo?.token}`,
+          },
+        }
+        axios.put("http://127.0.0.1:8000/api/users/add_experience/",  {}, config)
         setTimeout(() => {
             setNumOp(newNumOp);
             setNumArray(newNumArray);
@@ -85,7 +120,8 @@ const SingleGameScreen = ({navigation}) => {
             setAnswer('');
             setTimeLeft(timeLeft+5)
             setScore(score+1)
-        }, 100); 
+            
+        }, 50); 
       }
   };
 

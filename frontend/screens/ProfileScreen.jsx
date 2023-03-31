@@ -56,14 +56,16 @@ const ProfileScreen = ({navigation}) => {
         <>
         <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
         <View style={{flexDirection: "row", alignItems: "center", gap: 5}}>
-          <Image
-            style={styles.avatar}
-            source={{ uri: `http://127.0.0.1:8000${userInfo.profile.avatar }` }}
-          />
+          <TouchableOpacity>
+            <Image
+              style={styles.avatar}
+              source={{ uri: `http://127.0.0.1:8000${userInfo.profile.avatar }` }}
+            />
+          </TouchableOpacity>
           <Text style={styles.username}>{userInfo?.profile.full_username}</Text>
         </View>
           <View style={{backgroundColor: "#000", paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5}}>
-          <Text style={{color:"#fff", fontWeight:700}}>{userInfo.profile.level}</Text>
+          <Text style={{color:"#fff", fontWeight:700}}>lvl. {userInfo.profile.level}</Text>
           </View>
         </View>
         <Level level={userInfo.profile.level} currentExp={userInfo.profile.experience}/>

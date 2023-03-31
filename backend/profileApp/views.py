@@ -61,14 +61,14 @@ def update_user(request):
 #user_stats
 @api_view(["PUT"])
 @permission_classes([IsAuthenticated])
-def add_score(request):
+def add_experience(request):
     user = request.user
-    score = request.data["score"]
+
     
     profile = Profile.objects.get(user=user)
-    profile.score += int(score)
+    profile.experience += int(5)
     profile.save()
-    return Response({"message": f"score added, now your score is {profile.score}"})
+    return Response({"message": f"{user.profile.full_username} your experience has been changed, now it is {profile.experience}"})
 
 @api_view(["PUT"])
 @permission_classes([IsAuthenticated])
