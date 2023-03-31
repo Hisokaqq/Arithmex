@@ -1,12 +1,14 @@
 import { StyleSheet, Text, View, Image, Animated } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import logo from "../images/logo.png";
 import CustomInput from '../components/CustomInput';
 import CustomBtn from '../components/CustomBtn';
 import axios from "axios"
 import ErrorMessage from '../components/ErrorMessage';
 import Loader from '../components/Loader';
+import { Ionicons } from '@expo/vector-icons';
+
 const RegisterScreen = ({navigation}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -14,7 +16,22 @@ const RegisterScreen = ({navigation}) => {
     const [errord, setErrorD] = useState(null)
     const [loading,  setLoading] = useState(false)
     const [animation] = useState(new Animated.Value(-2));
-
+    useLayoutEffect(()=>{
+      navigation.setOptions({
+    
+       
+        headerLeft: () => (
+          <View style={{ marginLeft: 6 }}>
+            <Ionicons
+              name="arrow-back"   
+              size={24}
+              color="#000"
+              onPress={() => navigation.goBack()}
+            />
+          </View>
+        ),
+      });
+    }, [navigation]);
 useEffect(() => {
   Animated.loop(
     Animated.sequence([
@@ -37,6 +54,7 @@ const onSignedUpPressed = async () => {
   if(password !== passwordR) setErrorD("passwords do not match")
   else{
   const inputData = { username: username, password: password };
+
   const config = {
     headers: {
         "Content-type": "application/json"
@@ -92,6 +110,8 @@ const onSignedUpPressed = async () => {
               <Loader/>
             }
             <ErrorMessage message={errord}/>
+
+
         </View>
     );
 };

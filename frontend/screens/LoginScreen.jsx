@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View, Image, Animated } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import logo from "../images/logo.png";
 import CustomInput from '../components/CustomInput';
 import CustomBtn from '../components/CustomBtn';
 import axios from "axios"
 import ErrorMessage from '../components/ErrorMessage';
 import Loader from '../components/Loader';
+import { Ionicons } from '@expo/vector-icons';
 
 const LoginScreen = ({navigation}) => {
     const [username, setUsername] = useState("");
@@ -32,6 +33,22 @@ useEffect(() => {
   ).start();
 }, [animation]);
 
+useLayoutEffect(()=>{
+  navigation.setOptions({
+
+   
+    headerLeft: () => (
+      <View style={{ marginLeft: 6 }}>
+        <Ionicons
+          name="arrow-back"   
+          size={24}
+          color="#000"
+          onPress={() => navigation.goBack()}
+        />
+      </View>
+    ),
+  });
+}, [navigation]);
 const onSignedInPressed = async () => {
   if (username != "" && password != "") {
     setLoading(true);
@@ -93,6 +110,7 @@ const onSignedInPressed = async () => {
               <Loader/>
             }
             <ErrorMessage message={errord}/>
+
         </View>
     );
 };

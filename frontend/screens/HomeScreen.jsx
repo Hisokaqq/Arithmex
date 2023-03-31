@@ -52,6 +52,8 @@ const HomeScreen = () => {
                 <Text style={{textAlign: "center"}}>MultyPlayerMode</Text>
             </TouchableOpacity>
         </View>
+
+
     </View>
   );
 };

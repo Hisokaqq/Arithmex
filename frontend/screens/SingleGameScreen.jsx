@@ -4,6 +4,8 @@ import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StatusBar } from 'expo-status-bar';
+
 const SingleGameScreen = ({navigation}) => {
     const [userInfo, setUserInfo] = useState(null)
     useEffect(() => {
@@ -182,6 +184,7 @@ const SingleGameScreen = ({navigation}) => {
           <Text style={styles.buttonText}>DEL</Text>
         </TouchableOpacity>
       </View>
+      <StatusBar style="light" />
     </View>
   );
 };

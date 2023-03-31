@@ -5,7 +5,7 @@ const Loader = () => {
     const screenHeight = Dimensions.get('window').height;
   return (
     <View style={[styles.container, {height: screenHeight-200}]}>
-      <ActivityIndicator size="large" color="#3b71f3" />
+      <ActivityIndicator size="large" color="#000" />
     </View>
   )
 }

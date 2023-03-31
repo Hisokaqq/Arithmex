@@ -27,7 +27,7 @@ export default function App() {
          />
         <Stack.Screen name="Rankings" component={RankingScreen} />
       </Stack.Navigator>
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
 
     </NavigationContainer>
   );

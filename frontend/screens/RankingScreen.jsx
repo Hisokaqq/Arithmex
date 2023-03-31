@@ -4,6 +4,7 @@ import axios from 'axios'
 import Loader from '../components/Loader'
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { StatusBar } from 'expo-status-bar';
 
 const RankingScreen = ({navigation}) => {
   const [loading, setLoading] = useState(true)
@@ -107,6 +108,8 @@ const RankingScreen = ({navigation}) => {
               </View>
             ))}
           </View>
+          <StatusBar style="light" />
+
         </ScrollView>
       )}
     </View>
