@@ -4,6 +4,7 @@ import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Level from '../components/Level'
 import * as ImagePicker from 'expo-image-picker';
+
 const ProfileScreen = ({navigation}) => {
   const [userInfo, setUserInfo] = useState(null)
   const [games, setGames] = useState([])
@@ -98,18 +99,18 @@ const ProfileScreen = ({navigation}) => {
         <>
         <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
         <View style={{flexDirection: "row", alignItems: "center", gap: 5}}>
-        <TouchableOpacity onPress={handleAvatarPress}>
+        {/* <TouchableOpacity onPress={handleAvatarPress}>
           <Image
             style={styles.avatar}
             source={{ uri: `http://127.0.0.1:8000${userInfo.profile.avatar }` }}
           />
-        </TouchableOpacity>
-        {/* <TouchableOpacity onPress={handleAvatarPress}>
+        </TouchableOpacity> */}
+        <TouchableOpacity onPress={handleAvatarPress}>
           <Image
             style={styles.avatar}
             source={{ uri: avatarUri ? avatarUri : `http://127.0.0.1:8000${userInfo.profile.avatar }` }}
           />
-        </TouchableOpacity> */}
+        </TouchableOpacity>
           <Text style={styles.username}>{userInfo?.profile.full_username}</Text>
         </View>
           <View style={{backgroundColor: "#000", paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5}}>

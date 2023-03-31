@@ -8,6 +8,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from django.core.files.storage import default_storage
 
 #other profiles
 @api_view(['GET'])
@@ -38,18 +39,24 @@ def update_user(request):
     serializer = UserSerializerWithToken(user, many = False)
     data = request.data
     profile = Profile.objects.get(user=user)
-    if (request.method == "PUT"):
+
+    if request.method == "PUT":
+        # Delete the previous avatar image
+        if profile.avatar:
+            default_storage.delete(profile.avatar.name)
+
         if "avatar" in data:
-            if not isinstance(data["avatar"], str) :
+            if not isinstance(data["avatar"], str):
                 profile.avatar = request.FILES.get("avatar")
 
-        if "username" in data: 
+        if "username" in data:
             if data["username"] != user.username and data["username"] != "":
                 if not User.objects.filter(username=data["username"]).exists():
                     user.username = data["username"]
                 else:
                     message = {"detail": "user with this username already exists"}
                     return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
         profile.save()
         user.save()
 
