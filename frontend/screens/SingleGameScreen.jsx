@@ -106,6 +106,7 @@ const SingleGameScreen = ({navigation}) => {
     
         const newExpression = newNumArray.reduce((acc, curr, index) => acc + (index === 0 ? curr : newOperatorArray[index - 1] + curr), "");
         const newResult = eval(newExpression);
+        if (userInfo){
         const config = {
           headers: {
             'Content-type': 'application/json',
@@ -113,6 +114,8 @@ const SingleGameScreen = ({navigation}) => {
           },
         }
         axios.put("http://127.0.0.1:8000/api/users/add_experience/",  {}, config)
+        }
+        
         setTimeout(() => {
             setNumOp(newNumOp);
             setNumArray(newNumArray);
